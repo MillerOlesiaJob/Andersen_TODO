@@ -16,10 +16,6 @@ ul {
   padding: 0;
 }
 
-input:required {
-
-}
-
 .container {
   max-width: 1000px;
   margin: 0 auto;

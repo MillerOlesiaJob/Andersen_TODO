@@ -1,5 +1,5 @@
 const VALIDATION_MESSAGE = 'Please, use only string and number symbols';
-const REQUiRED_FIELD_MESSAGE = 'Please fill required field';
+const REQUIRED_FIELD_MESSAGE = 'Please fill required field';
 const WARNING = 'task-list__input--warning';
 const INVISIBLE = 'display--none';
 const OVERFLOW_HIDDEN = 'overflow--hidden';
@@ -111,7 +111,7 @@ class TasksList {
   saveTaskFromModal() {
     const title = this.modalTitleText.value;
     if (!title) {
-      this.showWarning(this.modalTitleText, this.modalWarningMessage, REQUiRED_FIELD_MESSAGE);
+      this.showWarning(this.modalTitleText, this.modalWarningMessage, REQUIRED_FIELD_MESSAGE);
       return;
     }
     if (this.checkValidText(title)) {
