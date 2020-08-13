@@ -105,14 +105,11 @@ ul {
   color: black;
   font-size: 30px;
   line-height: 30px;
-  -webkit-transform: scale(0);
   transform: scale(0);
-  -webkit-transition: 0.3s;
-  transition: 0.3s;
+  /* transition: 0.3s; */
 }
 
 .item__checkbox:checked + label:before{    
-  -webkit-transform: scale(1);
   transform: scale(1);
 }
 
@@ -211,6 +208,14 @@ ul {
 
 .task-list__input--warning {
   border: 2px solid red;
+}
+
+.item--done {
+  background-color: lightgrey;
+}
+
+.item__content--done p {
+  text-decoration: line-through;
 }
 
 

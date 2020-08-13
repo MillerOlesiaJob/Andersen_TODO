@@ -12,11 +12,13 @@ class App {
   }
 
   setTask(data) {
-    storage.setTask(this.taskFormat(data));
-    observer.publish('showTasks', storage.getTasks());
+    const newTask = this.getTaskFormat(data);
+    const tasks = [...storage.getTasks(), newTask];
+    storage.setTasks(tasks);
+    observer.publish('showTasks', tasks);
   }
 
-  taskFormat(data) {
+  getTaskFormat(data) {
     const task = {
       id: generateId(),
       isDone: false,
