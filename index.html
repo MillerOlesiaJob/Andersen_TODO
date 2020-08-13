@@ -10,15 +10,21 @@
 <body>
   <div class="container">
     <div class="task-list">
-      <div class="container">
-        <h1 class="task-list__title">TO DO LIST</h1>
-        <div class="input-container">
-          <input class="task-list__input" id="newTask" type="text" placeholder="Enter your task here">
-          <button id="showModal" class="task-list__input-btn">+</button>
-        </div>
-        <p id="warningMessage" class="task-list__warning-message display--none">Please, use only string and number symbols</p>
-        <ul class="task-list__list" id="taskList"></ul>
+      <h1 class="task-list__title">to do list</h1>
+      <div class="input-container">
+        <input class="task-list__input" id="newTask" type="text" placeholder="Enter your task here">
+        <button id="showModal" class="task-list__input-btn">+</button>
       </div>
+      <p id="warningMessage" class="task-list__warning-message display--none">Please, use only string and number symbols</p>
+      <ul class="task-list__list" id="taskList"></ul>
+    </div>
+    <div class="sort">
+      <ul class="sort__buttons">
+        <li id="sortAll" class="sort__btn">all</li>
+        <li id="sortActive" class="sort__btn">active</li>
+        <li id="sortCompleted" class="sort__btn">completed</li>
+        <li id="clearCompleted" class="sort__btn">clear completed</li>
+      </ul>
     </div>
   </div>
   <div class="wrap-modal display--none"></div>  
@@ -54,5 +60,6 @@
   <script src="constants.js" type="module"></script>
   <script src="Observer.js" type="module"></script>
   <script src="./helpers/generateId.js" type="module"></script>
+  <script src="Sort.js" type="module"></script>
 </body>
 </html>
