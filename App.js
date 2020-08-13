@@ -54,7 +54,7 @@ class App {
     text.innerHTML = message;
   }
 
-  isValidText(text) {
+  isInvalidText(text) {
     return text.match(/[^\w\s]/);
   }
 }

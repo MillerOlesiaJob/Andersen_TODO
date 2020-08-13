@@ -27,7 +27,7 @@ class TasksList extends App {
       return;
     }
 
-    if (this.isValidText(title)) {
+    if (this.isInvalidText(title)) {
       this.showWarning(this.inputField, this.warningMessage, VALIDATION_MESSAGE);
       this.isValid = false;
       return;

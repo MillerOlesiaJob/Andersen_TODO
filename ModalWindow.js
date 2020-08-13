@@ -50,17 +50,6 @@ class ModalWindow extends App {
     this.expirationDateField.value = this.getDateFormat(this.getDate(Date.now(), true));
   }
 
-  toggleModal() {
-    document.body.classList.toggle(OVERFLOW_HIDDEN);
-    this.wrapModal.classList.toggle(INVISIBLE);
-    this.modalWindow.classList.toggle(INVISIBLE);
-    this.isModalOpen = !this.isModalOpen;
-  }
-
-  getDateFormat(date) {
-    return date.split('.').reverse().join('-');
-  }
-
   closeModal() {
     this.toggleModal();
 
@@ -71,6 +60,17 @@ class ModalWindow extends App {
     if (!this.isValid) {
       this.cleanInput(this.inputField, this.warningTitleField);
     }
+  }
+
+  toggleModal() {
+    document.body.classList.toggle(OVERFLOW_HIDDEN);
+    this.wrapModal.classList.toggle(INVISIBLE);
+    this.modalWindow.classList.toggle(INVISIBLE);
+    this.isModalOpen = !this.isModalOpen;
+  }
+
+  getDateFormat(date) {
+    return date.split('.').reverse().join('-');
   }
 
   saveTask() {
@@ -89,7 +89,7 @@ class ModalWindow extends App {
       return;
     }
 
-    if (this.isValidText(title)) {
+    if (this.isInvalidText(title)) {
       this.showWarning(this.titleField, this.warningTitleField, VALIDATION_MESSAGE);
       return;
     }
