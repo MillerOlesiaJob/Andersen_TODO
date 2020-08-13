@@ -20,10 +20,10 @@ class App {
 
   getTaskFormat(data) {
     const task = {
-      id: generateId(),
+      id: data.id || generateId(),
       isDone: false,
       title: data.title,
-      description: data.description,
+      description: data.description || '',
       createDate: data.taskStart,
       deadline: data.taskEnd,
     }

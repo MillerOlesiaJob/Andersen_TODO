@@ -2,7 +2,7 @@ import { VALIDATION_MESSAGE, ENTER_KEY } from './constants.js';
 import App from './App.js';
 import { observer } from './Observer.js';
 import { storage } from './Storage.js';
-let item, checkbox, label, content, title, createDate, deadline, deleteIcon;
+let item, checkbox, label, content, title, createDate, deadline, iconsContainer, deleteIcon, editIcon;
 
 class TasksList extends App {
   constructor() {
@@ -11,9 +11,11 @@ class TasksList extends App {
     this.warningMessage = document.getElementById('warningMessage');
 
     observer.subscribe('showTasks', tasks => this.showTasks(tasks));
+    observer.subscribe('deleteTask', id => this.deleteTask(id));
   }
 
   setupListeners() {
+    this.inputField.addEventListener('change', () => this.cleanInputField(this.inputField, this.warningMessage));
     this.inputField.addEventListener('keyup', (event) => {
       if(event.keyCode === ENTER_KEY) {
         this.addNewItem(event.target.value);
@@ -21,20 +23,26 @@ class TasksList extends App {
     });
 
     this.list.addEventListener('click', ({target}) => {
+      const id = target.parentElement.parentElement.firstChild.id;
       if (target.closest('input')) {
         this.markTask(target);
 
         return;
       }
 
-      if (target.closest('button')) {
-        this.deleteTask(target.id);
+      if (target.closest('.item__delete')) {
+        console.log(target)
+        this.deleteTask(id);
+
+        return;
+      }
+
+      if (target.closest('.item__edit')) {
+        this.editTask(id);
 
         return;
       }
     })
-
-    this.inputField.addEventListener('change', () => this.cleanInputField(this.inputField, this.warningMessage));
   }
 
   addNewItem(title) {
@@ -61,6 +69,28 @@ class TasksList extends App {
     this.cleanInputField(this.inputField, this.warningMessage);
     this.inputField.value = '';
   }
+  
+  markTask({id, checked}) {
+    const tasks = storage.getTasks();
+    const newTasks = tasks.map(task => task.id === Number(id) ? {...task, isDone: checked} : task);
+    
+    storage.setTasks(newTasks);
+    observer.publish('showTasks', storage.getTasks());
+  }
+
+  deleteTask(id) {
+    const tasks = storage.getTasks();
+    const newTasks = tasks.filter(task => task.id !== Number(id));
+    
+    storage.setTasks(newTasks);
+    observer.publish('showTasks', storage.getTasks());
+  }
+
+  editTask(id) {
+    const task = storage.getTasks().find(task => task.id === Number(id));
+    
+    observer.publish('editTask', task);
+  }
 
   showTasks(tasks) {
     if (!tasks) {
@@ -82,23 +112,10 @@ class TasksList extends App {
       }
 
       content.append(createDate, deadline);
-      item.append(checkbox, label, content, deleteIcon);
+      iconsContainer.append(editIcon, deleteIcon);
+      item.append(checkbox, label, content, iconsContainer);
       this.list.appendChild(item);
     })
-  }
-
-  markTask({id, checked}) {
-    const tasks = storage.getTasks();
-    const newTasks = tasks.map(task => task.id === Number(id) ? {...task, isDone: checked} : task);
-    storage.setTasks(newTasks);
-    observer.publish('showTasks', storage.getTasks());
-  }
-
-  deleteTask(id) {
-    const tasks = storage.getTasks();
-    const newTasks = tasks.filter(task => task.id === Number(id));
-    storage.setTasks(newTasks);
-    observer.publish('showTasks', storage.getTasks());
   }
   
   creatNodes() {
@@ -109,7 +126,9 @@ class TasksList extends App {
     title = document.createElement('p');
     createDate = document.createElement('span');
     deadline = document.createElement('span');
-    deleteIcon = document.createElement('button');
+    iconsContainer = document.createElement('div')
+    deleteIcon = document.createElement('i');
+    editIcon = document.createElement('i');
   }
 
   setClassNames(task) {
@@ -117,7 +136,9 @@ class TasksList extends App {
     checkbox.classList.add('item__checkbox');
     content.classList.add('item__content');
     title.classList.add('item__title');
-    deleteIcon.classList.add('item__delete');
+    iconsContainer.classList.add('item__icons-container');
+    deleteIcon.classList.add('item__delete', 'fas', 'fa-times');
+    editIcon.classList.add('item__edit', 'fas', 'fa-pencil-alt');
 
     if (task.isDone) {
       item.classList.add('item--done');
@@ -137,7 +158,6 @@ class TasksList extends App {
     title.innerHTML = task.title;
     createDate.innerHTML = `${task.createDate} -`;
     deadline.innerHTML = task.deadline;
-    deleteIcon.innerHTML = '+'
   }
 
   addDescription(task) {
