@@ -7,8 +7,8 @@ class Storage {
     return this.tasks;
   }
 
-  setTask(task) {
-    this.tasks.push(task)
+  setTasks(tasks) {
+    this.tasks = tasks;
   }
 }
 

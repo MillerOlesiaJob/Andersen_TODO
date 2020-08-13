@@ -52,10 +52,7 @@ class ModalWindow extends App {
 
   closeModal() {
     this.toggleModal();
-
-    this.titleField.value = '';
-    this.descriptionField.value = '';
-    this.inputField.value = '';
+    this.clearFields();
 
     if (!this.isValid) {
       this.cleanInput(this.inputField, this.warningTitleField);
@@ -67,6 +64,12 @@ class ModalWindow extends App {
     this.wrapModal.classList.toggle(INVISIBLE);
     this.modalWindow.classList.toggle(INVISIBLE);
     this.isModalOpen = !this.isModalOpen;
+  }
+
+  clearFields() {
+    this.titleField.value = '';
+    this.descriptionField.value = '';
+    this.inputField.value = '';
   }
 
   getDateFormat(date) {
