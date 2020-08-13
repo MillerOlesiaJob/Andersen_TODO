@@ -111,7 +111,6 @@ class TasksList extends App {
   setAttributes(task) {
     checkbox.type = 'checkbox';
     checkbox.id = task.id;
-
     checkbox.checked = task.isDone;
 
     label.setAttribute('for', task.id);
