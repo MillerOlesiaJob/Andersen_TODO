@@ -3,32 +3,32 @@ import { storage } from './Storage.js';
 
 class FilterButtons {
   constructor() {
-    this.allBtn = document.getElementById('sortAll');
-    this.activeBtn = document.getElementById('sortActive');
-    this.completedBtn = document.getElementById('sortCompleted');
+    this.allBtn = document.getElementById('filterAll');
+    this.activeBtn = document.getElementById('filterActive');
+    this.completedBtn = document.getElementById('filterCompleted');
     this.clearBtn = document.getElementById('clearCompleted');
   }
 
   setupListeners() {
-    this.allBtn.addEventListener('click', () => this.sortAll());
-    this.activeBtn.addEventListener('click', () => this.sortActive());
-    this.completedBtn.addEventListener('click', () => this.sortCompleted());
+    this.allBtn.addEventListener('click', () => this.filterAll());
+    this.activeBtn.addEventListener('click', () => this.filterActive());
+    this.completedBtn.addEventListener('click', () => this.filterCompleted());
     this.clearBtn.addEventListener('click', () => this.clearCompleted());
   }
 
-  sortAll() {
+  filterAll() {
     const tasks = storage.getTasks();
 
     observer.publish('showTasks', tasks);
   }
 
-  sortActive() {
+  filterActive() {
     const tasks = storage.getTasks().filter(task => !task.isDone)
 
     observer.publish('showTasks', tasks);
   }
 
-  sortCompleted() {
+  filterCompleted() {
     const tasks = storage.getTasks().filter(task => task.isDone)
 
     observer.publish('showTasks', tasks);
