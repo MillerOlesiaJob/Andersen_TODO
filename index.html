@@ -37,6 +37,7 @@
     </div>
     <div class="modal__field-container">
       <p class="modal__text">Expiration date</p>
+      <p id="warningMessageDeadline" class="task-list__warning-message display--none"></p>
       <input type="date" class="modal__deadline-input modal__input">
     </div>
     <div class="modal__field-container btn-container">
@@ -44,6 +45,13 @@
       <button id="modalSave" class="btn-container__item">Save</button>
     </div>
   </div>
-  <script src="main.js"></script>
+  <script src="start.js" type="module"></script>
+  <script src="Storage.js" type="module"></script>
+  <script src="App.js" type="module"></script>
+  <script src="TasksList.js" type="module"></script>
+  <script src="ModalWindow.js" type="module"></script>
+  <script src="constants.js" type="module"></script>
+  <script src="Observer.js" type="module"></script>
+  <script src="./helpers/generateId.js" type="module"></script>
 </body>
 </html>
