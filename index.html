@@ -7,16 +7,51 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
   <div class="container">
     <div class="task-list">
       <div class="container">
         <h1 class="task-list__title">TO DO LIST</h1>
-        <ul class="task-list__list" id="taskList">
-        </ul>
+        <div class="input-container">
+          <input class="task-list__input" id="newTask" type="text" placeholder="Enter your task here">
+          <button id="showModal" class="task-list__input-btn">+</button>
+        </div>
+        <p id="warningMessage" class="task-list__warning-message display--none">Please, use only string and number symbols</p>
+        <ul class="task-list__list" id="taskList"></ul>
       </div>
     </div>
-  </div>  
-  <script src="main.js"></script>
+  </div>
+  <div class="wrap-modal display--none"></div>  
+  <div id="modalWindow" class="modal display--none">
+    <div class="modal__field-container">
+      <p class="modal__text">Title</p>
+      <p id="warningMessageModal" class="task-list__warning-message display--none"></p>
+      <input type="text" class="modal__title-input modal__input" placeholder="Enter your task" autofocus>
+    </div>
+    <div class="modal__field-container">
+      <p class="modal__text">Description</p>
+      <input type="text" class="modal__description-input modal__input" placeholder="Enter description">
+    </div>
+    <div class="modal__field-container">
+      <p class="modal__text">Creation date</p>
+      <input type="date" class="modal__create-input modal__input">
+    </div>
+    <div class="modal__field-container">
+      <p class="modal__text">Expiration date</p>
+      <p id="warningMessageDeadline" class="task-list__warning-message display--none"></p>
+      <input type="date" class="modal__deadline-input modal__input">
+    </div>
+    <div class="modal__field-container btn-container">
+      <button id="modalCancel" class="btn-container__item">Cancel</button>
+      <button id="modalSave" class="btn-container__item">Save</button>
+    </div>
+  </div>
+  <script src="start.js" type="module"></script>
+  <script src="Storage.js" type="module"></script>
+  <script src="App.js" type="module"></script>
+  <script src="TasksList.js" type="module"></script>
+  <script src="ModalWindow.js" type="module"></script>
+  <script src="constants.js" type="module"></script>
+  <script src="Observer.js" type="module"></script>
+  <script src="./helpers/generateId.js" type="module"></script>
 </body>
 </html>
