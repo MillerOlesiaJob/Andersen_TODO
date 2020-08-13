@@ -118,6 +118,15 @@ ul {
   padding: 0 10px;
 }
 
+.item__delete {
+  transform: rotate(45deg);
+  margin-left: auto;
+  font-size: 50px;
+  background: transparent;
+  border: none;
+  outline: none;
+}
+
 .task-list__warning-message {
   color: red;
   font-size: 16px;
@@ -175,7 +184,6 @@ ul {
   width: 100%;
 }
 
-
 .btn-container {
   display: flex;
   justify-content: space-around;
@@ -217,6 +225,3 @@ ul {
 .item__content--done p {
   text-decoration: line-through;
 }
-
-
-
