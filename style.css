@@ -16,6 +16,10 @@ ul {
   padding: 0;
 }
 
+.fas {
+  cursor: pointer;
+}
+
 .container {
   max-width: 1000px;
   margin: 0 auto;
@@ -90,7 +94,6 @@ ul {
   align-items: center;
 }
 
-
 .item__checkbox + label{
   display: block;
   width: 30px;
@@ -113,18 +116,22 @@ ul {
   transform: scale(1);
 }
 
+.item__icons-container {
+  margin-left: auto;
+}
+
 .item__content {
   margin-left: 20px;
   padding: 0 10px;
 }
 
 .item__delete {
-  transform: rotate(45deg);
-  margin-left: auto;
-  font-size: 50px;
-  background: transparent;
-  border: none;
-  outline: none;
+  font-size: 30px;
+}
+
+.item__edit {
+  font-size: 25px;
+  margin-right: 20px;
 }
 
 .task-list__warning-message {

@@ -6,10 +6,12 @@ import {
   VALIDATION_MESSAGE,
   DEADLINE_WARNING
 } from './constants.js';
+import { observer } from './Observer.js';
 
 class ModalWindow extends App {
   constructor() {
     super();
+    this.taskForEdit = {};
 
     this.cancelBtn = document.getElementById('modalCancel');
     this.saveBtn = document.getElementById('modalSave');
@@ -24,17 +26,22 @@ class ModalWindow extends App {
     this.expirationDateField = document.querySelector('.modal__deadline-input');
     this.warningTitleField = document.getElementById('warningMessageModal');
     this.warningExpirationField = document.getElementById('warningMessageDeadline');
+
+    observer.subscribe('editTask', task => {
+      this.taskForEdit = task;
+      this.showModalToEdit(task);
+    });
   }
 
   setupListeners() {
-    this.showModalBtn.addEventListener('click', () => this.showModal());
+    this.showModalBtn.addEventListener('click', () => this.showModalToAdd());
     this.cancelBtn.addEventListener('click', () => this.closeModal());
     this.saveBtn.addEventListener('click', () => this.saveTask());
     this.titleField.addEventListener('change', () => this.cleanInputField(this.titleField, this.warningTitleField));
     this.expirationDateField.addEventListener('change', () => this.cleanInputField(this.expirationDateField, this.warningExpirationField));
   }
 
-  showModal() {
+  showModalToAdd() {
     //if user started enter text into input it would be displayed on modal form
     if (this.inputField.value) {
       this.titleField.value = this.inputField.value
@@ -48,6 +55,15 @@ class ModalWindow extends App {
     this.titleField.focus();
     this.creationDateField.value = this.getDateFormat(this.getDate(Date.now()));
     this.expirationDateField.value = this.getDateFormat(this.getDate(Date.now(), true));
+  }
+
+  showModalToEdit(task) {
+    this.toggleModal();
+
+    this.titleField.value = task.title;
+    this.descriptionField.value = task.description;
+    this.creationDateField.value = this.getDateFormat(task.createDate);
+    this.expirationDateField.value = this.getDateFormat(task.deadline);
   }
 
   closeModal() {
@@ -81,6 +97,9 @@ class ModalWindow extends App {
     const description = this.descriptionField.value;
     const taskStart = this.getDate(this.creationDateField.value);
     const taskEnd = this.getDate(this.expirationDateField.value);
+    const id = this.taskForEdit.id;
+
+    id && observer.publish('deleteTask', id);
 
     if (!title) {
       this.showWarning(this.titleField, this.warningTitleField, REQUIRED_FIELD_MESSAGE);
@@ -98,6 +117,7 @@ class ModalWindow extends App {
     }
 
     const task = {
+      id,
       title: title,
       description: description,
       taskStart: taskStart,
