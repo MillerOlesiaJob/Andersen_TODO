@@ -79,9 +79,10 @@ class TasksList extends App {
     })
   }
 
-  markTask(markedTask) {
+  markTask({id, checked}) {
     const tasks = storage.getTasks();
-    storage.setTasks(tasks.map(task => task.id === Number(markedTask.id) ? {...task, isDone: markedTask.checked} : task));
+    const newTasks = tasks.map(task => task.id === Number(id) ? {...task, isDone: checked} : task);
+    storage.setTasks(newTasks);
     observer.publish('showTasks', storage.getTasks());
   }
   
@@ -110,11 +111,10 @@ class TasksList extends App {
   setAttributes(task) {
     checkbox.type = 'checkbox';
     checkbox.id = task.id;
-    label.setAttribute('for', task.id);
 
-    if (task.isDone) {
-      checkbox.checked = true;
-    }
+    checkbox.checked = task.isDone;
+
+    label.setAttribute('for', task.id);
   }
 
   setValues(task) {
