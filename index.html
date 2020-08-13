@@ -12,18 +12,29 @@
     <div class="task-list">
       <h1 class="task-list__title">to do list</h1>
       <div class="input-container">
+        <div class="sort">
+          <i id="sortBtn" class="sort__button fas fa-sort"></i>
+          <ul class="sort__buttons display--none">
+            <li id="sortDate" class="sort__btn">sort by date</li>
+            <li class="sort-icon-group">
+              <i id="sortUp" class="sort-half sort-half--up fas fa-sort-down"></i>
+              <i id="sortDown" class="sort-half fas fa-sort-down"></i>
+            </li>
+            <li id="sortText" class="sort__btn">sort by text</li>
+          </ul>
+        </div>
         <input class="task-list__input" id="newTask" type="text" placeholder="Enter your task here">
         <button id="showModal" class="task-list__input-btn">+</button>
       </div>
       <p id="warningMessage" class="task-list__warning-message display--none">Please, use only string and number symbols</p>
       <ul class="task-list__list" id="taskList"></ul>
     </div>
-    <div class="sort">
-      <ul class="sort__buttons">
-        <li id="sortAll" class="sort__btn">all</li>
-        <li id="sortActive" class="sort__btn">active</li>
-        <li id="sortCompleted" class="sort__btn">completed</li>
-        <li id="clearCompleted" class="sort__btn">clear completed</li>
+    <div class="filter">
+      <ul class="filter__buttons">
+        <li id="filterAll" class="filter__btn">all</li>
+        <li id="filterActive" class="filter__btn">active</li>
+        <li id="filterCompleted" class="filter__btn">completed</li>
+        <li id="clearCompleted" class="filter__btn">clear completed</li>
       </ul>
     </div>
   </div>
@@ -60,6 +71,7 @@
   <script src="constants.js" type="module"></script>
   <script src="Observer.js" type="module"></script>
   <script src="./helpers/generateId.js" type="module"></script>
-  <script src="Sort.js" type="module"></script>
+  <script src="FilterButtons.js" type="module"></script>
+  <script src="filterButtons.js" type="module"></script>
 </body>
 </html>

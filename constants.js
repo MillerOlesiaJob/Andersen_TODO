@@ -5,3 +5,7 @@ export const WARNING = 'task-list__input--warning';
 export const INVISIBLE = 'display--none';
 export const OVERFLOW_HIDDEN = 'overflow--hidden';
 export const ENTER_KEY = 13;
+export const SORT_DOWN = 'sort_down';
+export const SORT_UP = 'sort_up';
+export const SORT_TEXT = 'sort_text';
+export const SORT_DATE = 'sort_date';

@@ -213,11 +213,11 @@ ul {
   box-shadow: 0 0 10px rgba(255,255,255);
 }
 
-.sort__buttons {
+.filter__buttons {
   display: flex;
 }
 
-.sort__btn {
+.filter__btn {
   text-transform: capitalize;
   padding: 0 10px;
   border-left: 1px solid black;
@@ -225,14 +225,69 @@ ul {
   color: goldenrod;
 }
 
-.sort__btn:hover {
+.filter__btn:hover {
   color: black;
   cursor: pointer;
 }
 
-.sort__btn:first-child {
+.filter__btn:first-child {
   padding-left: 0;
   border: none;
+}
+
+.sort {
+  position: relative;
+}
+
+.sort-icon-group {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
+.sort-half {
+  font-size: 40px;
+}
+
+.sort-half:hover {
+  color: white;
+}
+
+.sort-half--up {
+  transform: rotate(180deg);
+}
+
+.sort__button {
+  font-size: 40px;
+  padding: 6px;
+}
+
+.sort__buttons {
+  position: absolute;
+  background-color: lightgray;
+  border: 1px solid black;
+  border-radius: 5px;
+  display: flex;
+  width: 250px;
+  align-items: center;
+  justify-content: center;
+  top: -100px;
+}
+
+.sort__btn {
+  padding: 10px;
+  font-size: 14px;
+  transition: .3s;
+  text-transform: uppercase;
+  text-align: center;
+  height: 100%;
+  cursor: pointer;
+}
+
+.sort__btn:hover {
+  background-color: gray;
 }
 
 /* should be always in bottom */
