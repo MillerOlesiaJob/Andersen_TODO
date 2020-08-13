@@ -29,6 +29,7 @@ ul {
   margin-top: 150px;
   margin-bottom: 50px;
   text-align: center;
+  text-transform: uppercase;
 }
 
 .task-list__item{
@@ -210,6 +211,28 @@ ul {
 
 .btn-container__item:hover {
   box-shadow: 0 0 10px rgba(255,255,255);
+}
+
+.sort__buttons {
+  display: flex;
+}
+
+.sort__btn {
+  text-transform: capitalize;
+  padding: 0 10px;
+  border-left: 1px solid black;
+  font-size: 20px;
+  color: goldenrod;
+}
+
+.sort__btn:hover {
+  color: black;
+  cursor: pointer;
+}
+
+.sort__btn:first-child {
+  padding-left: 0;
+  border: none;
 }
 
 /* should be always in bottom */
