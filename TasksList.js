@@ -2,7 +2,7 @@ import { VALIDATION_MESSAGE, ENTER_KEY } from './constants.js';
 import App from './App.js';
 import { observer } from './Observer.js';
 import { storage } from './Storage.js';
-let item, checkbox, label, content, title, createDate, deadline;
+let item, checkbox, label, content, title, createDate, deadline, deleteIcon;
 
 class TasksList extends App {
   constructor() {
@@ -23,6 +23,14 @@ class TasksList extends App {
     this.list.addEventListener('click', ({target}) => {
       if (target.closest('input')) {
         this.markTask(target);
+
+        return;
+      }
+
+      if (target.closest('button')) {
+        this.deleteTask(target.id);
+
+        return;
       }
     })
 
@@ -74,7 +82,7 @@ class TasksList extends App {
       }
 
       content.append(createDate, deadline);
-      item.append(checkbox, label, content);
+      item.append(checkbox, label, content, deleteIcon);
       this.list.appendChild(item);
     })
   }
@@ -82,6 +90,13 @@ class TasksList extends App {
   markTask({id, checked}) {
     const tasks = storage.getTasks();
     const newTasks = tasks.map(task => task.id === Number(id) ? {...task, isDone: checked} : task);
+    storage.setTasks(newTasks);
+    observer.publish('showTasks', storage.getTasks());
+  }
+
+  deleteTask(id) {
+    const tasks = storage.getTasks();
+    const newTasks = tasks.filter(task => task.id === Number(id));
     storage.setTasks(newTasks);
     observer.publish('showTasks', storage.getTasks());
   }
@@ -94,6 +109,7 @@ class TasksList extends App {
     title = document.createElement('p');
     createDate = document.createElement('span');
     deadline = document.createElement('span');
+    deleteIcon = document.createElement('button');
   }
 
   setClassNames(task) {
@@ -101,6 +117,7 @@ class TasksList extends App {
     checkbox.classList.add('item__checkbox');
     content.classList.add('item__content');
     title.classList.add('item__title');
+    deleteIcon.classList.add('item__delete');
 
     if (task.isDone) {
       item.classList.add('item--done');
@@ -120,6 +137,7 @@ class TasksList extends App {
     title.innerHTML = task.title;
     createDate.innerHTML = `${task.createDate} -`;
     deadline.innerHTML = task.deadline;
+    deleteIcon.innerHTML = '+'
   }
 
   addDescription(task) {
