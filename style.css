@@ -270,10 +270,11 @@ ul {
   border: 1px solid black;
   border-radius: 5px;
   display: flex;
+  flex-wrap: wrap;
   width: 250px;
   align-items: center;
   justify-content: center;
-  top: -100px;
+  top: -130px;
 }
 
 .sort__btn {
@@ -288,6 +289,32 @@ ul {
 
 .sort__btn:hover {
   background-color: gray;
+}
+
+#sortDate,
+#sortText {
+  flex-basis: 40%;
+}
+
+.sort__btn--search {
+  width: 100%;
+}
+
+#search {
+  width: 100%;
+  height: 30px;
+  border-radius: 5px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.warning-message {
+  text-align: center;
+  margin-top: 200px;
+  font-size: 50px;
+  color: red;
+  opacity: 0;
+  /* transition: 3s; */
 }
 
 /* should be always in bottom */
@@ -309,4 +336,14 @@ ul {
 
 .item__content--done p {
   text-decoration: line-through;
+}
+
+.warning-message--show {
+  animation: message 3s;
+}
+
+@keyframes message {
+  0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; }
 }

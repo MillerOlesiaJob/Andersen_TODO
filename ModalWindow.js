@@ -27,10 +27,7 @@ class ModalWindow extends App {
     this.warningTitleField = document.getElementById('warningMessageModal');
     this.warningExpirationField = document.getElementById('warningMessageDeadline');
 
-    observer.subscribe('editTask', task => {
-      this.taskForEdit = task;
-      this.showModalToEdit(task);
-    });
+    observer.subscribe('editTask', task => this.showModalToEdit(this.taskForEdit = task));
   }
 
   setupListeners() {
@@ -48,7 +45,7 @@ class ModalWindow extends App {
     }
 
     if (!this.isValid) {
-      this.cleanInput(this.inputField, this.warningTitleField);
+      this.cleanInputField(this.inputField, this.warningTitleField);
     }
 
     this.toggleModal();
@@ -86,6 +83,8 @@ class ModalWindow extends App {
     this.titleField.value = '';
     this.descriptionField.value = '';
     this.inputField.value = '';
+
+    this.cleanInputField(this.creationDateField, this.warningExpirationField);
   }
 
   getDateFormat(date) {
@@ -98,8 +97,6 @@ class ModalWindow extends App {
     const taskStart = this.getDate(this.creationDateField.value);
     const taskEnd = this.getDate(this.expirationDateField.value);
     const id = this.taskForEdit.id;
-
-    id && observer.publish('deleteTask', id);
 
     if (!title) {
       this.showWarning(this.titleField, this.warningTitleField, REQUIRED_FIELD_MESSAGE);
@@ -123,6 +120,8 @@ class ModalWindow extends App {
       taskStart: taskStart,
       taskEnd: taskEnd,
     }
+    
+    id && observer.publish('deleteTask', id);
 
     this.setTask(task);
     this.closeModal();

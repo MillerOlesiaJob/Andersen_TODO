@@ -16,9 +16,9 @@ class TasksList extends App {
 
   setupListeners() {
     this.inputField.addEventListener('change', () => this.cleanInputField(this.inputField, this.warningMessage));
-    this.inputField.addEventListener('keyup', (event) => {
-      if(event.keyCode === ENTER_KEY) {
-        this.addNewItem(event.target.value);
+    this.inputField.addEventListener('keyup', event => {
+      if (event.keyCode === ENTER_KEY) {
+        this.addNewItem(event.target.value)
       }
     });
 
@@ -29,9 +29,8 @@ class TasksList extends App {
 
         return;
       }
-
+      
       if (target.closest('.item__delete')) {
-        console.log(target)
         this.deleteTask(id);
 
         return;
