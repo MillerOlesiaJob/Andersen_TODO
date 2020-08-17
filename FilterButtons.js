@@ -1,35 +1,39 @@
 import { observer } from './Observer.js';
 import { storage } from './Storage.js';
+import { ACTIVE_LINK, FILTER_ALL, FILTER_ACTIVE, FILTER_COMPLETED } from './constants.js';
 
 class FilterButtons {
   constructor() {
-    this.allBtn = document.getElementById('filterAll');
-    this.activeBtn = document.getElementById('filterActive');
-    this.completedBtn = document.getElementById('filterCompleted');
-    this.clearBtn = document.getElementById('clearCompleted');
+    this.linksArray = document.querySelectorAll('.filter__btn');
   }
 
   setupListeners() {
-    this.allBtn.addEventListener('click', () => this.filterAll());
-    this.activeBtn.addEventListener('click', () => this.filterActive());
-    this.completedBtn.addEventListener('click', () => this.filterCompleted());
-    this.clearBtn.addEventListener('click', () => this.clearCompleted());
+    const allBtn = document.getElementById('filterAll');
+    const activeBtn = document.getElementById('filterActive');
+    const completedBtn = document.getElementById('filterCompleted');
+    const clearBtn = document.getElementById('clearCompleted');
+
+    allBtn.addEventListener('click', () => this.filterAll());
+    activeBtn.addEventListener('click', () => this.filterActive());
+    completedBtn.addEventListener('click', () => this.filterCompleted());
+    clearBtn.addEventListener('click', () => this.clearCompleted());
+    Array.from(this.linksArray).forEach(link => link.addEventListener('click', () => this.makeLinkActive(link)));
   }
 
   filterAll() {
-    const tasks = storage.getTasks();
+    const tasks = storage.getTasks(FILTER_ALL);
 
     observer.publish('showTasks', tasks);
   }
 
   filterActive() {
-    const tasks = storage.getTasks().filter(task => !task.isDone)
+    const tasks = storage.getTasks(FILTER_ACTIVE);
 
     observer.publish('showTasks', tasks);
   }
 
   filterCompleted() {
-    const tasks = storage.getTasks().filter(task => task.isDone)
+    const tasks = storage.getTasks(FILTER_COMPLETED);
 
     observer.publish('showTasks', tasks);
   }
@@ -39,6 +43,11 @@ class FilterButtons {
 
     storage.setTasks(tasks);
     observer.publish('showTasks', storage.getTasks());
+  }
+
+  makeLinkActive(link) {
+    Array.from(this.linksArray).forEach(link => link.classList.remove(ACTIVE_LINK));
+    link.classList.add(ACTIVE_LINK);
   }
 }
 

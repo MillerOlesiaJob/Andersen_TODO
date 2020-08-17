@@ -1,32 +1,39 @@
-import { INVISIBLE, SORT_DOWN, SORT_UP, SORT_DATE, SORT_TEXT } from './constants.js'
+import {
+  INVISIBLE,
+  SORT_DOWN,
+  SORT_UP,
+  SORT_DATE,
+  SORT_TEXT,
+  SORT_BY_TITLE,
+  SORT_BY_DATE
+} from './constants.js'
 import { storage } from './Storage.js';
 import { observer } from './Observer.js';
 
 class SortButtons {
   constructor() {
-    this.sortBtn = document.getElementById('sortBtn');
-    this.dateBtn = document.getElementById('sortDate');
-    this.textBtn = document.getElementById('sortText');
-    this.buttonGroup = document.querySelector('.sort__buttons');
-    this.buttonOrderGroup = document.querySelector('.sort-icon-group');
-    this.searchField = document.getElementById('search');
-    this.warningMessage = document.querySelector('.warning-message');
-
-    this.menuIsOpen = false;
-    this.sortModeDirection = SORT_DOWN;
     this.sortModeContent = SORT_TEXT;
   }
 
   setupListeners() {
-    this.sortBtn.addEventListener('click', () => {
-      this.buttonGroup.classList.toggle(INVISIBLE);
-      observer.publish('showTasks', this.tasks);
-    })
+    const sortBtn = document.getElementById('sortBtn');
+    const dateBtn = document.getElementById('sortDate');
+    const textBtn = document.getElementById('sortText');
+    const buttonOrderGroup = document.querySelector('.sort-icon-group');
+    const searchField = document.getElementById('search');
 
-    this.buttonOrderGroup.addEventListener('click', ({target}) => this.changeOrder(target));
-    this.dateBtn.addEventListener('click', () => this.sortByDate());
-    this.textBtn.addEventListener('click', () => this.sortByText());
-    this.searchField.addEventListener('keyup', () => this.showSearchResult(this.searchField.value));
+    sortBtn.addEventListener('click', () => this.showSortWindow());
+    buttonOrderGroup.addEventListener('click', ({target}) => this.changeOrder(target));
+    dateBtn.addEventListener('click', () => this.sortByDate());
+    textBtn.addEventListener('click', () => this.sortByText());
+    searchField.addEventListener('keyup', () => this.showSearchResult(searchField.value));
+  }
+
+  showSortWindow() {
+    const buttonGroup = document.querySelector('.sort__buttons');
+
+    buttonGroup.classList.toggle(INVISIBLE);
+    observer.publish('showTasks', this.tasks);
   }
 
   showSearchResult(value) {
@@ -37,35 +44,31 @@ class SortButtons {
   }
 
   sortByText() {
-    const tasks = storage.getTasks();
-
-    if(!tasks.length) {
-      this.warningMessage.classList.add('warning-message--show');
-    }
-
     this.sortModeContent = SORT_TEXT;
-
-    const sortedTasks = this.sortMode === SORT_UP
-      ? tasks.sort((a, b) => a.title > b.title ? 1 : -1)
-      : tasks.sort((a, b) => a.title < b.title ? 1 : -1)
+    const sortedTasks = this.getSortedArray(SORT_BY_TITLE);
 
     observer.publish('showTasks', sortedTasks);
   }
 
   sortByDate() {
-    const tasks = storage.getTasks();
-
-    if(!tasks.length) {
-      this.warningMessage.classList.add('warning-message--show');
-    }
-
     this.sortModeContent = SORT_DATE;
-
-    const sortedTasks = this.sortMode === SORT_UP
-      ? tasks.sort((a, b) => a.createDate > b.createDate ? 1 : -1)
-      : tasks.sort((a, b) => a.createDate < b.createDate ? 1 : -1)
+    const sortedTasks = this.getSortedArray(SORT_BY_DATE);
 
     observer.publish('showTasks', sortedTasks);
+  }
+
+  getSortedArray(area) {
+    const tasks = storage.getTasks();
+    const warningMessage = document.querySelector('.warning-message');
+
+
+    if(!tasks.length) {
+      warningMessage.classList.add('warning-message--show');
+    }
+
+    return this.sortMode === SORT_UP
+      ? tasks.sort((a, b) => a[area] > b[area] ? 1 : -1)
+      : tasks.sort((a, b) => a[area] < b[area] ? 1 : -1);
   }
 
   changeOrder(target) {

@@ -1,5 +1,4 @@
 import { INVISIBLE, WARNING } from './constants.js';
-import { observer } from './Observer.js';
 import { storage } from './Storage.js';
 import { generateId } from './helpers/generateId.js';
 
@@ -15,7 +14,6 @@ class App {
     const newTask = this.getTaskFormat(data);
     const tasks = [...storage.getTasks(), newTask];
     storage.setTasks(tasks);
-    observer.publish('showTasks', tasks);
   }
 
   getTaskFormat(data) {

@@ -347,3 +347,8 @@ ul {
   50% { opacity: 1; }
   100% { opacity: 0; }
 }
+
+.filter__btn--active {
+  color: black;
+  cursor: pointer;
+}
