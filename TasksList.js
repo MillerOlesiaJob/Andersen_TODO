@@ -1,4 +1,4 @@
-import { VALIDATION_MESSAGE, ENTER_KEY } from './constants.js';
+import { VALIDATION_MESSAGE, ENTER_KEY, EMPTY_TASK_MESSAGE } from './constants.js';
 import App from './App.js';
 import { observer } from './Observer.js';
 import { storage } from './Storage.js';
@@ -16,37 +16,34 @@ class TasksList extends App {
 
   setupListeners() {
     this.inputField.addEventListener('change', () => this.cleanInputField(this.inputField, this.warningMessage));
-    this.inputField.addEventListener('keyup', (event) => {
-      if(event.keyCode === ENTER_KEY) {
+    this.inputField.addEventListener('keyup', event => {
+
+      if (event.keyCode === ENTER_KEY) {
         this.addNewItem(event.target.value);
       }
     });
 
-    this.list.addEventListener('click', ({target}) => {
-      const id = target.parentElement.parentElement.firstChild.id;
-      if (target.closest('input')) {
-        this.markTask(target);
+    this.list.addEventListener('click', ({target}) => this.handleItemClick(target));
+  }
 
-        return;
+  handleItemClick(target) {
+    const events = {
+      'input': this.markTask,
+      '.item__delete': this.deleteTask,
+      '.item__edit': this.editTask,
+    }
+
+    for(let key in events) {
+      if (target.closest(key)) {
+        events[key](target);
       }
-
-      if (target.closest('.item__delete')) {
-        console.log(target)
-        this.deleteTask(id);
-
-        return;
-      }
-
-      if (target.closest('.item__edit')) {
-        this.editTask(id);
-
-        return;
-      }
-    })
+    }
   }
 
   addNewItem(title) {
-    if (!title) {
+    if (!title.trim()) {
+      this.showWarning(this.inputField, this.warningMessage, EMPTY_TASK_MESSAGE);
+      setTimeout(() => this.cleanInputField(this.inputField, this.warningMessage), 2000);
       return;
     }
 
@@ -68,54 +65,57 @@ class TasksList extends App {
     this.setTask(task);
     this.cleanInputField(this.inputField, this.warningMessage);
     this.inputField.value = '';
+    observer.publish('showTasks');
   }
   
   markTask({id, checked}) {
-    const tasks = storage.getTasks();
+    const tasks = storage.getAllTasks();
     const newTasks = tasks.map(task => task.id === Number(id) ? {...task, isDone: checked} : task);
-    
+
     storage.setTasks(newTasks);
-    observer.publish('showTasks', storage.getTasks());
+    observer.publish('showTasks');
   }
 
-  deleteTask(id) {
+  deleteTask(target) {
+    const id = typeof target === 'number' ? target : target.parentElement.parentElement.firstChild.id;
     const tasks = storage.getTasks();
     const newTasks = tasks.filter(task => task.id !== Number(id));
     
     storage.setTasks(newTasks);
-    observer.publish('showTasks', storage.getTasks());
+    observer.publish('showTasks');
   }
 
-  editTask(id) {
+  editTask(target) {
+    const id = target.parentElement.parentElement.firstChild.id;
     const task = storage.getTasks().find(task => task.id === Number(id));
     
     observer.publish('editTask', task);
   }
 
-  showTasks(tasks) {
-    if (!tasks) {
-      return;
+  showTasks(tasks = storage.getTasks()) {
+
+    if (tasks) {
+
+      this.list.innerHTML = '';
+
+      tasks.forEach(task => {
+        this.creatNodes();
+        this.setClassNames(task);
+        this.setAttributes(task);
+        this.setValues(task);
+
+        content.appendChild(title);
+
+        if(task.description) {
+          this.addDescription(task);
+        }
+
+        content.append(createDate, deadline);
+        iconsContainer.append(editIcon, deleteIcon);
+        item.append(checkbox, label, content, iconsContainer);
+        this.list.appendChild(item);
+      })
     }
-
-    this.list.innerHTML = '';
-
-    tasks.forEach(task => {
-      this.creatNodes();
-      this.setClassNames(task);
-      this.setAttributes(task);
-      this.setValues(task);
-
-      content.appendChild(title);
-
-      if(task.description) {
-        this.addDescription(task);
-      }
-
-      content.append(createDate, deadline);
-      iconsContainer.append(editIcon, deleteIcon);
-      item.append(checkbox, label, content, iconsContainer);
-      this.list.appendChild(item);
-    })
   }
   
   creatNodes() {
